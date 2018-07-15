@@ -4,6 +4,12 @@ import sys
 
 class myEventHandler(object):
     def __init__(self):
+        self.ax = fig.add_subplot(111)
+
+        self.ax.set_xlim([0,5])
+        self.ax.set_ylim([0,5])
+        self.ax.plot(x, y)
+
         cid = fig.canvas.mpl_connect('button_press_event', self.oncpaint)
         pid = fig.canvas.mpl_connect('key_press_event', self.press)
         self.points = []
@@ -15,7 +21,7 @@ class myEventHandler(object):
             self.points.append([event.xdata,event.ydata])
             self.cx.append(event.xdata)
             self.cy.append(event.ydata)
-            ax.plot(event.xdata, event.ydata, '.', color='r')
+            self.ax.plot(event.xdata, event.ydata, '.', color='r')
             fig.canvas.draw()
 
         elif event.button == 3:
@@ -50,6 +56,19 @@ class myEventHandler(object):
             ys.append(self.points[0][1])
             plt.plot(xs,ys)
             plt.show()
+
+        elif event.key == 'e':
+            self.points.clear()
+            self.cx.clear()
+            self.cy.clear()
+            plt.plot(self.cx,self.cy)
+            plt.show()
+
+        elif event.key == 'q':
+            plt.close(fig)
+            print('Quit.')
+
+
         else:
             print ('press 1, 2, or 3 key. The Degree of Subdivision.')
 
@@ -96,15 +115,13 @@ def fourpointScheme(points):
     return new_points
 
 def main():
-    global x, y, fig, ax
+    global x, y, fig
     x = []
     y = []
     fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(x, y)
+
     handler = myEventHandler()
-    ax.set_xlim([0,5])
-    ax.set_ylim([0,5])
+
     plt.show()
 
 if __name__ == "__main__":
