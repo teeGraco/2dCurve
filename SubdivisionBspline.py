@@ -15,6 +15,7 @@ class myEventHandler(object):
         self.points = []
         self.cx = []
         self.cy = []
+        
 
     def oncpaint(self,event):
         if event.button == 1:
@@ -44,7 +45,7 @@ class myEventHandler(object):
             ys.append(self.points[0][1])
             plt.plot(xs,ys)
             plt.show()
-            
+
         elif event.key == '4':
             ndpoint = np.array(self.points)
             ndpoint = fourpointScheme(self.points)
